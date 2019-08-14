@@ -7,7 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 
 @Entity(name="tb_material")
 public class Material {
@@ -16,19 +16,19 @@ public class Material {
 	private Long id;
 	
 	@Column(nullable = false)
-	@NotBlank(message = "Nome é uma informação obrigatória.")
+	@NotEmpty(message = "Nome é uma informação obrigatória.")
 	private String nome;
 	
 	@Column(nullable = false)
-	@NotBlank(message = "Descrição é uma informação obrigatória.")
+	@NotEmpty(message = "Descrição é uma informação obrigatória.")
 	private String descricao;
 	
 	@Column(nullable = false)
-	@NotBlank(message = "Quantidade é uma informação obrigatória.")
+	@NotEmpty(message = "Quantidade é uma informação obrigatória.")
 	private int quantidade;
 	
 	@Column(nullable = false)
-	@NotBlank(message = "Preço é uma informação obrigatória.")
+	@NotEmpty(message = "Preço é uma informação obrigatória.")
 	private BigDecimal preco;
 
 	public Long getId() {

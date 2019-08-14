@@ -18,11 +18,8 @@ public class HomeController {
 	private MaterialService service;
 	
 	@GetMapping
-	public ModelAndView findAll() {
+	public String findAll() {
 		
-		ModelAndView mv = new ModelAndView("home");
-		mv.addObject("materiais", service.findAll());
-		
-		return mv;
+		return "home";
 	}
 }

@@ -11,82 +11,36 @@
 <link href="webjars/bootstrap/4.3.1/css/bootstrap.min.css"
 	rel="stylesheet">
 	
-	<style>
-	.hide {
-		display:none;
-	}
+<style>
+
 </style>
 </head>
 <body>
-	<nav class="navbar navbar-expand-lg navbar-light bg-light">
-		<a class="navbar-brand" href="#">Artesanato</a>
-		<button class="navbar-toggler" type="button" data-toggle="collapse"
-			data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup"
-			aria-expanded="false" aria-label="Toggle navigation">
-			<span class="navbar-toggler-icon"></span>
-		</button>
-		<div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-			<div class="navbar-nav">
-				<a class="nav-item nav-link" th:href="@{/materiais/}" data-toggle="modal" data-target="#exampleModal">Materiais <span class="sr-only">(current)</span></a>
-				<a class="nav-item nav-link" href="#">Features</a> 
-				<a class="nav-item nav-link" href="#">Pricing</a>
-			</div>
+	<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+		<a class="navbar-brand" href="#"> <img
+			src="/docs/4.3/assets/brand/bootstrap-solid.svg" width="30"
+			height="30" class="d-inline-block align-top" alt=""> Bootstrap
+		</a>
+		<div class="collapse navbar-collapse" id="navbarNav">
+			<ul class="navbar-nav">
+				<li class="nav-item"><a class="nav-link" href="/materiais">Materiais</a></li>
+				<li class="nav-item"><a class="nav-link" href="#">Features</a></li>
+				<li class="nav-item"><a class="nav-link" href="#">Pricing</a></li>
+			</ul>
 		</div>
 	</nav>
-
-	<!-- Modal -->
-	<div class="modal fade bd-example-modal-xl" id="exampleModal" tabindex="-1" role="dialog"
-		aria-labelledby="exampleModalLabel" aria-hidden="true">
-		<div class="modal-dialog modal-xl" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-					<button type="button" class="close" data-dismiss="modal"
-						aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
-				</div>
-				<div class="modal-body" th:insert="materiais :: materiais"></div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary"
-						data-dismiss="modal">Close</button>
-					<button type="button" class="btn btn-primary" onclick="incluirLinhaMaterial()">Incluir</button>
-				</div>
-			</div>
-		</div>
-	</div>
 	
-	<script>
-// 		function carregaListaMateriais() {
-// 			$.ajax({
-// 		        type: "GET",
-// 		        url: "/materiais",
-// 		        cache: false, 
-// 		        contentType:'application/json',	        
-// 		        success: function(response){
-// 		            $('.modal-body').html(response);
-// 		        },
-// 		        error: function(){                      
-// 		            alert('Error while edit request..');
-// 		        }
-// 		    }); 
-// 		}
-		
-		function incluirLinhaMaterial() {
-// 			var novaLinha = `<tr>
-// 							 	<td><input type="text" /></td>
-// 							 	<td><input type="text" /></td>
-// 							 	<td><input type="text" /></td>
-// 							 	<td><input type="text" /></td>
-// 							 	<td>
-// 							 	<a class="btn btn-sm btn-success" th:href="@{/materiais/salvar}" >Adicionar</a>
-// 								</td>
-// 			 				 </tr>
-			 	
-// 							`;
-// 			$('#teste').prepend(novaLinha);
- 			$('#novaLinha').removeClass('hide');
-		}
-	</script>
+	
+	<div class="container">
+  <h1>Hello World!</h1>
+  <div class="row">
+    <div class="col-sm-6" style="background-color:yellow;">
+      <p>Lorem ipsum...</p>
+    </div>
+    <div class="col-sm-6" style="background-color:pink;">
+      <p>Sed ut perspiciatis...</p>
+    </div>
+  </div>
+</div>
 </body>
 </html>
