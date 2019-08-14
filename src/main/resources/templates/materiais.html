@@ -1,0 +1,67 @@
+<!-- <!DOCTYPE html> -->
+<!-- <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"> -->
+<!-- <head> -->
+<!-- 	<meta charset="UTF-8" /> -->
+<!-- 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /> -->
+<!-- 	<meta name="viewport" content="width=device-width" /> -->
+<!-- 	<title>Materiais Cadastrados</title> -->
+<!-- 	<script src="webjars/jquery/3.0.0/jquery.min.js"></script> -->
+<!-- 	<script src="webjars/bootstrap/4.3.1/js/bootstrap.min.js"></script> -->
+<!-- 	<link href="webjars/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet"> -->
+<!-- </head> -->
+<!-- <body> -->
+
+
+<div th:fragment="materiais" class="panel panel-default">
+	<div class="panel-heading">
+		<strong>Materiais</strong>
+	</div>
+	<div class="panel-body">
+		<div class="table-responsive">
+			<table
+				class="table table-sm table-striped table-hover table-bordered">
+				<thead>
+					<tr>
+						<th>Nome</th>
+						<th>Descrição</th>
+						<th>Quantidade</th>
+						<th>Preço</th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody id="teste">
+					<tr id="novaLinha" class="hide">
+						<td><input type="text" class="form-control input-sm" maxlength="150" placeholder="Informe o nome"/></td>
+						<td><input type="text" class="form-control input-sm" maxlength="150" placeholder="Informe a decrição"/></td>
+						<td><input type="text" class="form-control input-sm" maxlength="150" placeholder="Informe a quantidade"/></td>
+						<td><input type="text" class="form-control input-sm" maxlength="150" placeholder="Informe o valor"/></td>
+						<td>
+						<form method="post" th:object="${material}" th:action="@{/materiais/salvar}">
+						<button type="submit" class="btn btn-sm btn-success"
+							th:href="@{/materiais/salvar}">Adicionar</button></td>
+						</form>
+					</tr>
+					<tr th:each="material : ${materiais}">
+						<td th:text="${material.nome}"></td>
+						<td th:text="${material.descricao}"></td>
+						<td th:text="${material.quantidade}"></td>
+						<td th:text="${material.preco}"></td>
+						<td>
+							<div class="btn-group pull-right">
+								<a class="btn btn-sm btn-primary"
+									th:href="@{/edit/{id}(id=${material.id})}">Editar</a> <a
+									class="delete btn btn-sm btn-danger"
+									th:href="@{/delete/{id}(id=${material.id})}">Excluir</a>
+							</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<!-- 		<div class="panel-footer"> -->
+	<!-- 			<a class="btn btn-sm btn-success" th:href="@{/add/}" >Adicionar</a> -->
+	<!-- 		</div> -->
+</div>
+<!-- </body> -->
+<!-- </html> -->

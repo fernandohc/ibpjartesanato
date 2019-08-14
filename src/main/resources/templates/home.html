@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width" />
+<title>Artesanato</title>
+<script src="webjars/jquery/3.0.0/jquery.min.js"></script>
+<script src="webjars/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<link href="webjars/bootstrap/4.3.1/css/bootstrap.min.css"
+	rel="stylesheet">
+	
+	<style>
+	.hide {
+		display:none;
+	}
+</style>
+</head>
+<body>
+	<nav class="navbar navbar-expand-lg navbar-light bg-light">
+		<a class="navbar-brand" href="#">Artesanato</a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse"
+			data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup"
+			aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+			<div class="navbar-nav">
+				<a class="nav-item nav-link" th:href="@{/materiais/}" data-toggle="modal" data-target="#exampleModal">Materiais <span class="sr-only">(current)</span></a>
+				<a class="nav-item nav-link" href="#">Features</a> 
+				<a class="nav-item nav-link" href="#">Pricing</a>
+			</div>
+		</div>
+	</nav>
+
+	<!-- Modal -->
+	<div class="modal fade bd-example-modal-xl" id="exampleModal" tabindex="-1" role="dialog"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-xl" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body" th:insert="materiais :: materiais"></div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary"
+						data-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-primary" onclick="incluirLinhaMaterial()">Incluir</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<script>
+// 		function carregaListaMateriais() {
+// 			$.ajax({
+// 		        type: "GET",
+// 		        url: "/materiais",
+// 		        cache: false, 
+// 		        contentType:'application/json',	        
+// 		        success: function(response){
+// 		            $('.modal-body').html(response);
+// 		        },
+// 		        error: function(){                      
+// 		            alert('Error while edit request..');
+// 		        }
+// 		    }); 
+// 		}
+		
+		function incluirLinhaMaterial() {
+// 			var novaLinha = `<tr>
+// 							 	<td><input type="text" /></td>
+// 							 	<td><input type="text" /></td>
+// 							 	<td><input type="text" /></td>
+// 							 	<td><input type="text" /></td>
+// 							 	<td>
+// 							 	<a class="btn btn-sm btn-success" th:href="@{/materiais/salvar}" >Adicionar</a>
+// 								</td>
+// 			 				 </tr>
+			 	
+// 							`;
+// 			$('#teste').prepend(novaLinha);
+ 			$('#novaLinha').removeClass('hide');
+		}
+	</script>
+</body>
+</html>
