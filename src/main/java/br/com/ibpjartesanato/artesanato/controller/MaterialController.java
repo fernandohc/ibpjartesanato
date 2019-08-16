@@ -30,7 +30,7 @@ public class MaterialController {
 		
 		ModelAndView mv = new ModelAndView("/material");
 		mv.addObject("materiais", materialService.findAll());
-		mv.addObject("medidas", unidadeMedidaService.findAll());
+		mv.addObject("medidas", unidadeMedidaService.getMapMedidas());
 		
 		return mv;
 	}
@@ -68,4 +68,24 @@ public class MaterialController {
 		
 		return findAll();
 	}
+	
+	
+	@PostMapping("/edit")
+	public ModelAndView alterar(@Valid Material novo, BindingResult result) {
+		
+//		if(result.hasErrors()) {
+//			return add(material);
+//		}
+		
+		Material alterado = materialService.findOne(novo.getId());
+		alterado.setNome(novo.getNome());
+		alterado.setDescricao(novo.getDescricao());
+		alterado.setQuantidade(novo.getQuantidade());
+		alterado.setUnidadeMedida(novo.getUnidadeMedida());
+		alterado.setPreco(novo.getPreco());
+		materialService.save(alterado);
+		
+		return findAll();
+	}
+	
 }

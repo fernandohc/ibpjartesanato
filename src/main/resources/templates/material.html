@@ -24,18 +24,16 @@
 
 <script>
 	var medidas;
+	var idAtual;
 
 	function criaLinhaInclusao() {		
 		if($('#linhaNova').length == 0) {
-			$('#tabelaMateriais').prepend(criaLinha);
+			$('#tabelaMateriais').prepend(criaLinha('Inclusao'));
 		}
 		$('#inputNomeNovo').focus();	
 	}
 	
-	function criaLinha() {
-		
-		criaComboMedidas(); 
-		
+	function criaLinha(operacao) {
 		let linha = document.createElement('tr');
 		linha.setAttribute('id', 'linhaNova');
 
@@ -51,8 +49,8 @@
 		colQuantidade.appendChild(criaInput('Quantidade'));
 		colUnidadeMedida.appendChild(criaCombo('UnidadeMedida'));
 		colPreco.appendChild(criaInput('Preco'));
-		colBtn.appendChild(criaDivBotoes());
-		
+		colBtn.appendChild(criaDivBotoes(operacao));
+
 		linha.appendChild(colNome);
 		linha.appendChild(colDescricao);
 		linha.appendChild(colQuantidade);
@@ -79,28 +77,29 @@
 	}
 	
 	function criaCombo(campo) {
+		criaComboMedidas();
 		let combo = document.createElement('select');
 		combo.setAttribute('id', 'input'+campo+'Novo');
-		
-		let option = document.createElement('option');
-		option.innerHTML = "Selecione";
-		option.value = -1;
-		
-		combo.appendChild(option);
-		
+
 		for(let i = 0; i < medidas.length; i++) {
 			let optionMedida = document.createElement('option');
-			optionMedida.innerHTML = medidas[i].trim();
-			optionMedida.value = i;
+			var medida = medidas[i].trim().split("=");
+			optionMedida.value = medida[0];
+			optionMedida.innerHTML = medida[1];
 			combo.appendChild(optionMedida);
 		}
 		return combo;
 	}
 	
-	function criaDivBotoes() {
+	function criaDivBotoes(operacao) {
 		let divBtns = document.createElement('div');
 		divBtns.classList.add('btn-group', 'pull-right');
-		divBtns.appendChild(criaBotaoAdicionar());		
+		if(operacao == 'Inclusao')
+			divBtns.appendChild(criaBotaoAdicionar());		
+		else 
+			divBtns.appendChild(criaBotaoAlterar());
+		
+		divBtns.appendChild(criaBotaoCancelar());
 		
 		return divBtns;
 	}
@@ -117,14 +116,32 @@
 		return button;
 	}
 	
+	function criaBotaoAlterar() {
+		let button = document.createElement('button');
+		button.classList.add('btn', 'btn-sm', 'btn-primary');
+		button.setAttribute('id', 'idBtnNovo');
+		button.innerHTML = 'Alterar';
+		button.onclick = function() {
+			alterar();
+		}
+		
+		return button;
+	}
+	
+	function criaBotaoCancelar() {
+		let button = document.createElement('button');
+		button.classList.add('btn', 'btn-sm', 'delete', 'btn-danger');
+		button.setAttribute('id', 'idBtnCancelar');
+		button.innerHTML = 'Cancelar';
+		button.onclick = function() {
+			cancelar();
+		}
+		return button;
+	}	
+	
 	function adicionar() {
-		var dadosRequest = {};
-		dadosRequest['nome'] = $('#inputNomeNovo').val();
-		dadosRequest['descricao'] = $('#inputDescricaoNovo').val();
-		dadosRequest['quantidade'] = $('#inputQuantidadeNovo').val();
-		dadosRequest['unidadeMedida'] = $('#inputUnidadeMedidaNovo').val();
-		dadosRequest['preco'] = $('#inputPrecoNovo').val();
-			
+		var dadosRequest = preencheCamposRequest();
+		
 		$.ajax({
 			method:'POST',
 			url: 'material/save',
@@ -136,20 +153,61 @@
 		})
 	}
 	
+	function alterar() {
+		var dadosRequest = preencheCamposRequest();
+		
+		$.ajax({
+			method:'POST',
+			url: 'material/edit',
+			data: {"id":dadosRequest['id'], "nome":dadosRequest['nome'], "descricao":dadosRequest['descricao'], "quantidade":dadosRequest['quantidade'], 
+				"unidadeMedida":dadosRequest['unidadeMedida'], "preco":dadosRequest['preco']},
+			success: (function(response) {
+				window.location = '/material';
+			})
+		})
+	}
+	
+	function preencheCamposRequest() {
+		var dados = {};
+		dados['id'] = idAtual;
+		dados['nome'] = $('#inputNomeNovo').val();
+		dados['descricao'] = $('#inputDescricaoNovo').val();
+		dados['quantidade'] = $('#inputQuantidadeNovo').val();
+		dados['unidadeMedida'] = $('#inputUnidadeMedidaNovo').val();
+		dados['preco'] = $('#inputPrecoNovo').val();
+		
+		return dados;
+	}
+	
+	function cancelar() {
+		window.location = '/material';
+	}
+	
+	function criaLinhaAlteracao(materialId) {		
+		if($('#linhaNova').length == 0) {
+			$('#materialNome_'+materialId).parent().replaceWith(criaLinha('Alteracao'));
+		}
+		$('#inputNomeNovo').focus();
+	}
+	
 	function liberaCamposParaEdicao(materialId) {
+		idAtual = $('#materialId_'+materialId).val();
 		let nomeAtual = $('#materialNome_'+materialId).text();
 		let descricaoAtual = $('#materialDescricao_'+materialId).text();
 		let quantidadeAtual = $('#materialQuantidade_'+materialId).text();
 		let unidadeMedidaAtual = $('#materialUnidadeMedida_'+materialId).text();
-		let precoAtual = $('#materialPreco_'+materialId).text();
+		let precoAtual = $('#materialPreco_'+materialId).text();	
 		
-		$('#materialNome_'+materialId).parent().replaceWith(criaLinha());
-		
-		$('#inputNomeNovo').val(nomeAtual);
-		$('#inputDescricaoNovo').val(descricaoAtual);
-		$('#inputQuantidadeNovo').val(quantidadeAtual);
-		$('#inputUnidadeMedidaNovo').val(unidadeMedidaAtual);
-		$('#inputPrecoNovo').val(precoAtual);
+		criaLinhaAlteracao(materialId);
+		preencheCamposNovaLinha(nomeAtual, descricaoAtual, quantidadeAtual, unidadeMedidaAtual, precoAtual);
+	}
+	
+	function preencheCamposNovaLinha(nome, descricao, quantidade, unidadeMedida, preco) {
+		$('#inputNomeNovo').val(nome);
+		$('#inputDescricaoNovo').val(descricao);
+		$('#inputQuantidadeNovo').val(quantidade);
+		$('#inputUnidadeMedidaNovo').val(unidadeMedida);
+		$('#inputPrecoNovo').val(preco);
 	}
 	
 	function excluir(materialId) {
@@ -189,11 +247,11 @@
 					</thead>
 					<tbody id="tabelaMateriais">					
 						<tr th:each="material : ${materiais}">
-<!-- 							<td th:id="'materialId_'+${material.id}" th:text="${material.id}"></td> -->
+							<input th:type="hidden" th:id="'materialId_'+${material.id}" th:value="${material.id}" />
 							<td th:id="'materialNome_'+${material.id}" th:text="${material.nome}"></td>
 							<td th:id="'materialDescricao_'+${material.id}" th:text="${material.descricao}"></td>
 							<td th:id="'materialQuantidade_'+${material.id}" th:text="${material.quantidade}"></td>
-							<td th:id="'materialUnidadeMedida_'+${material.id}" th:text="${material.unidadeMedida.nome}"></td>
+							<td th:id="'materialUnidadeMedida_'+${material.id}" th:text="${material.unidadeMedida.nome}" th:value="${material.unidadeMedida.id}">
 							<td th:id="'materialPreco_'+${material.id}" th:text="${material.preco}"></td>
 							<td>
 								<div class="btn-group pull-right">
@@ -209,7 +267,7 @@
                       		
 		<div class="panel-footer">
 			<a class="btn btn-sm btn-danger" th:href="@{/}">Voltar</a>
-			<button class="btn btn-sm btn-success" th:onclick="|criaLinhaInclusao('${oi}')|">Novo</a>
+			<button class="btn btn-sm btn-success" th:onclick="|criaLinhaInclusao()|">Novo</a>
 		</div>	
 	</div>
 </body>

@@ -4,26 +4,28 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import br.com.ibpjartesanato.artesanato.entity.Material;
-import br.com.ibpjartesanato.artesanato.repository.MaterialRepository;
+import br.com.ibpjartesanato.artesanato.entity.Peca;
+import br.com.ibpjartesanato.artesanato.repository.PecaRepository;
 
 @Service
-public class MaterialService {
-
-	@Autowired
-	private MaterialRepository repository;
+public class PecaService {
 	
-	public List<Material> findAll() {
+	@Autowired
+	private PecaRepository repository;
+	
+	public List<Peca> findAll() {
 		return repository.findAll();
 	}
 	
-	public Material findOne(Long id) {
+	public Peca findOne(Long id) {
 		return repository.getOne(id);
 	}
 	
-	public Material save(Material material) {
-		return repository.saveAndFlush(material);
+	public Peca save(Peca peca) {
+		return repository.saveAndFlush(peca);
 	}
 	
 	public void delete(Long id) {
