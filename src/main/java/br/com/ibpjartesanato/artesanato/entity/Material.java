@@ -26,7 +26,7 @@ public class Material {
 	
 	@Column(nullable = false)
 //	@NotEmpty(message = "Quantidade é uma informação obrigatória.")
-	private int quantidade;
+	private float quantidade;
 	
 	@Column(nullable = false)
 //	@NotEmpty(message = "Preço é uma informação obrigatória.")
@@ -59,11 +59,11 @@ public class Material {
 		this.descricao = descricao;
 	}
 
-	public int getQuantidade() {
+	public float getQuantidade() {
 		return quantidade;
 	}
 
-	public void setQuantidade(int quantidade) {
+	public void setQuantidade(float quantidade) {
 		this.quantidade = quantidade;
 	}
 

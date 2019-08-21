@@ -29,7 +29,7 @@ public class MaterialController {
 	public ModelAndView findAll() {
 		
 		ModelAndView mv = new ModelAndView("/material");
-		mv.addObject("materiais", materialService.findAll());
+		mv.addObject("materiais", materialService.listar());
 		mv.addObject("medidas", unidadeMedidaService.getMapMedidas());
 		
 		return mv;
@@ -53,7 +53,7 @@ public class MaterialController {
 	@GetMapping("/delete/{id}")
 	public ModelAndView delete(@PathVariable("id") Long id) {
 		
-		materialService.delete(id);
+		materialService.remover(id);
 		
 		return findAll();
 	}
@@ -64,7 +64,7 @@ public class MaterialController {
 //		if(result.hasErrors()) {
 //			return add(material);
 //		}
-		materialService.save(material);
+		materialService.salvar(material);
 		
 		return findAll();
 	}
@@ -83,7 +83,7 @@ public class MaterialController {
 		alterado.setQuantidade(novo.getQuantidade());
 		alterado.setUnidadeMedida(novo.getUnidadeMedida());
 		alterado.setPreco(novo.getPreco());
-		materialService.save(alterado);
+		materialService.salvar(alterado);
 		
 		return findAll();
 	}

@@ -16,7 +16,7 @@ public class PecaService {
 	@Autowired
 	private PecaRepository repository;
 	
-	public List<Peca> findAll() {
+	public List<Peca> listar() {
 		return repository.findAll();
 	}
 	
@@ -24,11 +24,11 @@ public class PecaService {
 		return repository.getOne(id);
 	}
 	
-	public Peca save(Peca peca) {
+	public Peca salvar(Peca peca) {
 		return repository.saveAndFlush(peca);
 	}
 	
-	public void delete(Long id) {
+	public void remover(Long id) {
 		repository.deleteById(id);
 	}
 }

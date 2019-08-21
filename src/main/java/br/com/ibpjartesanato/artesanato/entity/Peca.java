@@ -1,12 +1,14 @@
 package br.com.ibpjartesanato.artesanato.entity;
 
 import java.time.LocalTime;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.NotEmpty;
 
 @Entity(name="tb_peca")
@@ -29,6 +31,9 @@ public class Peca {
 	@Column(nullable = false)
 //	@NotEmpty(message = "Horas de produção é uma informação obrigatória.")
 	private LocalTime hrsProducao;
+	
+	@OneToMany(mappedBy = "peca")
+	private List<MaterialProducao> listaMateriaisProducao;
 
 	public Long getId() {
 		return id;
