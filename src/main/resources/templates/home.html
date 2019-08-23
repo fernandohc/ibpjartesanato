@@ -64,25 +64,17 @@
 		let inputCampo = document.createElement('input');
 		inputCampo.setAttribute('id', 'input' + campo + objeto + 'Novo');
 		inputCampo.type = 'text';
-
+		console.log('Criando Input: #input'+campo+objeto+'Novo: ');
+		console.log($('#input'+campo+objeto+'Novo').val());
 		return inputCampo;
 	}
 	
-	function criaCombosPagina() {
-		arrayMedidas = $('#medidas').val();
-		arrayMateriais = $('#materiais').val();
-		
-		arrayMedidas = arrayMedidas.substring(arrayMedidas.length-1, 1);
-		medidas = arrayMedidas.split(",");
-		
-		arrayMateriais = arrayMateriais.substring(arrayMateriais.length-1, 1);
-		materiais = arrayMateriais.split(",");
-	}
-	
-	function criaCombo(objeto, campo) {
-		
+	function criaCombo(objeto, campo) {	
 		let combo = document.createElement('select');
 		combo.setAttribute('id', 'input'+ campo + objeto +'Novo');
+		
+		console.log('Criando Combo: #input'+campo+objeto+'Novo: ');
+		console.log($('#input'+campo+objeto+'Novo').val());
 		
 		return populaCombo(combo, campo);
 	}
@@ -102,6 +94,17 @@
 			combo.appendChild(option);
 		}
 		return combo;
+	}
+	
+	function criaCombosPagina() {
+		arrayMedidas = $('#medidas').val();
+		arrayMateriais = $('#materiais').val();
+		
+		arrayMedidas = arrayMedidas.substring(arrayMedidas.length-1, 1);
+		medidas = arrayMedidas.split(",");
+		
+		arrayMateriais = arrayMateriais.substring(arrayMateriais.length-1, 1);
+		materiais = arrayMateriais.split(",");
 	}
 
 	function criaDivBotoes(operacao, objeto) {
@@ -184,20 +187,32 @@
 	function liberaCamposParaEdicao(objetoId, ...colunas) {
 		let obj = colunas[0].charAt(0).toLowerCase() + colunas[0].slice(1);		
 		idAtual = $('#'+obj+'Id_'+objetoId).val();	
-		let campos = [];
 		
-		for(var i = 1; i < colunas.length; i++) {
-			campos[i] = $('#'+obj+colunas[i]+'_'+objetoId).text();
-			console.log(campos[i]);
-		}
+		var campos = salvaValoresAtuaisCampos(obj, objetoId, ...colunas);
 		
  		criaLinhaAlteracao(objetoId, ...colunas); 		
  		preencheCamposNovaLinha(campos, ...colunas);
 	}
 	
+	
+	function salvaValoresAtuaisCampos(obj, objetoId, ...colunas) {
+		let campos = [];
+		
+		for(var i = 1; i < colunas.length; i++) {
+			campos[i] = $('#'+obj+colunas[i]+'_'+objetoId).text();
+		}
+		
+		return campos;
+	}
+	
 	function preencheCamposNovaLinha(campos, ...colunas) {
 		for(var i = 1; i < colunas.length; i++) {
-			$('#input'+colunas[0]+colunas[i]+'Novo').val(campos[i]);		
+			if(colunas[i].startsWith('Combo'))
+				colunas[i] = colunas[i].slice(5);
+			$('#input'+colunas[i]+colunas[0]+'Novo').val(campos[i]);
+			
+			console.log('campo: #input'+colunas[i]+colunas[0]+'Novo: ---- valor esperado: '+campos[i]);
+			console.log($('#input'+colunas[i]+colunas[0]+'Novo').val());
 		}
 	}
 	
@@ -205,7 +220,10 @@
 		let obj = colunas[0].charAt(0).toLowerCase() + colunas[0].slice(1);
 		
 		if($('#linhaNova'+colunas[0]).length == 0) {
-			$('#'+obj+colunas[1]+'_'+objetoId).parent().replaceWith(criaLinha('Alteracao', ...colunas));
+			if(!colunas[1].startsWith('Combo'))
+				$('#'+obj+colunas[1]+'_'+objetoId).parent().replaceWith(criaLinha('Alteracao', ...colunas));
+			else
+				$('#'+obj+colunas[1].slice(5)+'_'+objetoId).parent().replaceWith(criaLinha('Alteracao', ...colunas));
 		}
 		$('#input'+colunas[1]+'Novo').focus();
 	}
@@ -350,90 +368,10 @@
 	<div class="container-fluid">
 		<div class="row">
 			<div class="col-sm-6">
-				<div class="panel panel-default">
-					<div class="panel-heading">
-						<h3>Minhas Peças teste</h3>
-					</div>
-					<div class="panel-body">
-						<div class="table-responsive">
-							<table
-								class="table table-sm table-striped table-hover table-responsive">
-								<thead>
-									<tr>
-										<th scope="col">Nome da Peça</th>
-										<th scope="col">Descrição</th>
-										<th scope="col">Horas de Produção</th>
-										<th scope="col">% de Lucro</th>
-										<th></th>
-									</tr>
-								</thead>
-								<tbody id="tabelaPeca">
-									<tr class="table-row" th:onclick="|atualizaPagina('${peca.id}')|" th:each="peca : ${pecas}">
-										<input th:type="hidden" th:id="'pecaId_'+${peca.id}" th:value="${peca.id}" />
-										<td th:id="'pecaNome_'+${peca.id}" th:text="${peca.nome}"></td>
-										<td th:id="'pecaDescricao_'+${peca.id}" th:text="${peca.descricao}"></td>
-										<td th:id="'pecaHrsProducao_'+${peca.id}" th:text="${peca.hrsProducao}"></td>
-										<td th:id="'pecaPctLucro_'+${peca.id}" th:text="${peca.pctLucro}"></td>
-										<td>
-											<div class="btn-group pull-right">
-												<button class="btn btn-sm btn-primary" th:onclick="|liberaCamposParaEdicao('${peca.id}', 'Peca', 'Nome', 'Descricao', 'HrsProducao', 'PctLucro')|">Editar</button>
-												<button class="delete btn btn-sm btn-danger" th:onclick="|excluir('${peca.id}')|">Excluir</button>
-											</div>
-										</td>
-									</tr>									
-								</tbody>
-							</table>
-						</div>
-					</div>
-					<div class="panel-footer">
-						<button class="btn btn-sm btn-success"
-							th:onclick="|criaLinhaInclusao('Peca', 'Nome', 'Descricao', 'HrsProducao', 'PctLucro')|">
-							Novo</a>
-					</div>
-				</div>
+				<div th:insert="peca"></div>
 			</div>
 			<div class="col-sm-6">
-				<div class="panel panel-default">
-					<div class="panel-heading">
-						<h3>Materiais da Peça</h3>
-					</div>
-					<div class="panel-body">
-						<div class="table-responsive">
-							<table
-								class="table table-sm table-striped table-hover table-bordered">
-								<thead>
-									<tr>
-										<th>Nome do material</th>
-										<th>Qtd. utilizada</th>
-										<th>Unidade de Medida</th>
-										<th>Valor por Peça</th>
-										<th></th>
-									</tr>
-								</thead>
-								<tbody id="tabelaMaterialProducao">
-									<tr th:each="materialProducao : ${materiaisProducao}">
-										<input th:type="hidden" th:id="'materialProducaoId_'+${materialProducao.id}" th:value="${materialProducao.id}" />
-										<td th:id="'materialProducaoNome_'+${materialProducao.id}" th:text="${materialProducao.material.nome}"></td>
-										<td th:id="'materialProducaoQtdUtilizada_'+${materialProducao.id}" th:text="${materialProducao.qtdUtilizada}"></td>
-										<td th:id="'materialProducaoUnidadeMedidaSelecionada_'+${materialProducao.id}" th:text="${materialProducao.unidadeMedidaSelecionada.nome}"></td>
-										<td th:id="'materialProducaoValor_'+${materialProducao.id}" th:text="${materialProducao.valor}"></td>								
-										<td>
-											<div class="btn-group pull-right">
-												<button class="btn btn-sm btn-primary" th:onclick="|liberaCamposParaEdicao('${materialProducao.id}', 'MaterialProducao', 'ComboNome', 'QtdUtilizada', 'ComboUnidadeMedidaSelecionada')|">Editar</button>
-												<button class="delete btn btn-sm btn-danger" th:onclick="|excluir('${materialProducao.id}', 'MaterialProducao')|">Excluir</button>
-											</div>
-										</td>
-									</tr>
-								</tbody>
-							</table>
-						</div>
-					</div>
-					<div class="panel-footer">
-						<button class="btn btn-sm btn-success"
-							th:onclick="|criaLinhaInclusao('MaterialProducao', 'ComboNome', 'QtdUtilizada', 'ComboUnidadeMedidaSelecionada')|">
-							Novo</a>
-					</div>
-				</div>
+				<div th:insert="materialProducao"></div>
 			</div>
 		</div>
 	</div>

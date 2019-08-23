@@ -1,0 +1,56 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width" />
+</head>
+<div th:fragment="peca" class="panel panel-default">
+	<div class="panel-heading">
+		<h3>Minhas Peças</h3>
+	</div>
+	<div class="panel-body">
+		<div class="table-responsive">
+			<table
+				class="table table-sm table-striped table-hover table-responsive">
+				<thead>
+					<tr>
+						<th scope="col">Nome da Peça</th>
+						<th scope="col">Descrição</th>
+						<th scope="col">Horas de Produção</th>
+						<th scope="col">% de Lucro</th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody id="tabelaPeca">
+					<tr th:each="peca : ${pecas}">
+						<input th:type="hidden" th:id="'pecaId_'+${peca.id}"
+							th:value="${peca.id}" />
+						<td class="table-row" th:onclick="|atualizaPagina('${peca.id}')|"
+							th:id="'pecaNome_'+${peca.id}" th:text="${peca.nome}"></td>
+						<td class="table-row" th:onclick="|atualizaPagina('${peca.id}')|"
+							th:id="'pecaDescricao_'+${peca.id}" th:text="${peca.descricao}"></td>
+						<td class="table-row" th:onclick="|atualizaPagina('${peca.id}')|"
+							th:id="'pecaHrsProducao_'+${peca.id}"
+							th:text="${peca.hrsProducao}"></td>
+						<td class="table-row" th:onclick="|atualizaPagina('${peca.id}')|"
+							th:id="'pecaPctLucro_'+${peca.id}" th:text="${peca.pctLucro}"></td>
+						<td>
+							<div class="btn-group pull-right">
+								<button class="btn btn-sm btn-primary"
+									th:onclick="|liberaCamposParaEdicao('${peca.id}', 'Peca', 'Nome', 'Descricao', 'HrsProducao', 'PctLucro')|">Editar</button>
+								<button class="delete btn btn-sm btn-danger"
+									th:onclick="|excluir('${peca.id}')|">Excluir</button>
+							</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<div class="panel-footer">
+		<button class="btn btn-sm btn-success"
+			th:onclick="|criaLinhaInclusao('Peca', 'Nome', 'Descricao', 'HrsProducao', 'PctLucro')|">
+			Novo</a>
+	</div>
+</div>

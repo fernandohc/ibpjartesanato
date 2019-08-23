@@ -1,0 +1,57 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width" />
+</head>
+<div th:fragment="materialProducao" class="panel panel-default">
+	<div class="panel-heading">
+		<h3>Materiais da Peça</h3>
+	</div>
+	<div class="panel-body">
+		<div class="table-responsive">
+			<table
+				class="table table-sm table-striped table-hover table-bordered">
+				<thead>
+					<tr>
+						<th>Nome do material</th>
+						<th>Qtd. utilizada</th>
+						<th>Unidade de Medida</th>
+						<th>Valor por Peça</th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody id="tabelaMaterialProducao">
+					<tr th:each="materialProducao : ${materiaisProducao}">
+						<input th:type="hidden"
+							th:id="'materialProducaoId_'+${materialProducao.id}"
+							th:value="${materialProducao.id}" />
+						<td th:id="'materialProducaoNome_'+${materialProducao.id}"
+							th:text="${materialProducao.material.nome}"></td>
+						<td th:id="'materialProducaoQtdUtilizada_'+${materialProducao.id}"
+							th:text="${materialProducao.qtdUtilizada}"></td>
+						<td
+							th:id="'materialProducaoUnidadeMedidaSelecionada_'+${materialProducao.id}"
+							th:text="${materialProducao.unidadeMedidaSelecionada.nome}"></td>
+						<td th:id="'materialProducaoValor_'+${materialProducao.id}"
+							th:text="${materialProducao.valor}"></td>
+						<td>
+							<div class="btn-group pull-right">
+								<button class="btn btn-sm btn-primary"
+									th:onclick="|liberaCamposParaEdicao('${materialProducao.id}', 'MaterialProducao', 'ComboNome', 'QtdUtilizada', 'ComboUnidadeMedidaSelecionada')|">Editar</button>
+								<button class="delete btn btn-sm btn-danger"
+									th:onclick="|excluir('${materialProducao.id}', 'MaterialProducao')|">Excluir</button>
+							</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<div class="panel-footer">
+		<button class="btn btn-sm btn-success"
+			th:onclick="|criaLinhaInclusao('MaterialProducao', 'ComboNome', 'QtdUtilizada', 'ComboUnidadeMedidaSelecionada')|">
+			Novo</a>
+	</div>
+</div>
