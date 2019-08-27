@@ -1,0 +1,44 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width" />
+</head>
+<div th:fragment="despesaVariavel" class="panel panel-default">
+	<div class="panel-body">
+		<div class="table-responsive">
+			<table
+				class="table table-sm table-striped table-hover table-bordered table-responsive">
+				<thead>
+					<tr>
+						<th>Despesa</th>
+						<th>Percentual</th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody id="tabelaDespesaVariavel">
+					<tr th:each="despesaVariavel : ${despesasVariaveis}">
+						<input th:type="hidden" th:id="'despesaVariavelId_'+${despesaVariavel.id}" th:value="${despesaVariavel.id}" />
+						<td th:id="'despesaVariavelNome_'+${despesaVariavel.id}" th:text="${despesaVariavel.nome}"></td>
+						<td th:id="'despesaVariavelPct_'+${despesaVariavel.id}" th:text="${despesaVariavel.pct}"></td>				
+						<td>
+							<div class="btn-group pull-right">
+								<button class="btn btn-sm btn-primary"
+									th:onclick="|liberaCamposParaEdicao('${despesaVariavel.id}', 'DespesaVariavel', 'Nome')|">Editar</button>
+								<button class="delete btn btn-sm btn-danger"
+									th:onclick="|excluir('${despesaVariavel.id}')|">Excluir</button>
+							</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<div class="panel-footer">
+		<a class="btn btn-sm btn-danger" th:href="@{/}">Voltar</a>
+		<button class="btn btn-sm btn-success"
+			th:onclick="|criaLinhaInclusao('DespesaVariavel', 'Nome', 'Pct')|">
+			Novo</a>
+	</div>
+</div>

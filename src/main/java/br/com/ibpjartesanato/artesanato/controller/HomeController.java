@@ -89,7 +89,7 @@ public class HomeController {
 		return carregarRegistros();
 	}
 	
-	@GetMapping("/delete/{id}")
+	@GetMapping("/deletePeca/{id}")
 	public ModelAndView delete(@PathVariable("id") Long id) {
 		
 		pecaService.remover(id);
