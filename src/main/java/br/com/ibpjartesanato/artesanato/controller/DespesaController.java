@@ -27,7 +27,6 @@ public class DespesaController {
 		
 		ModelAndView mv = new ModelAndView("/despesa");
 		mv.addObject("despesasFixas", despesaService.listarDespesasFixas());
-		List<Despesa> des = despesaService.listarDespesasVariaveis();
 		mv.addObject("despesasVariaveis", despesaService.listarDespesasVariaveis());
 		
 		return mv;

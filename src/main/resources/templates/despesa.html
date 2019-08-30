@@ -13,6 +13,7 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 <script type="text/javascript" th:src="@{/js/src/applicationGenerics.js}"></script>
 <script type="text/javascript" th:src="@{/js/src/despesa.js}"></script> 
+
   
 <style>
 .table-row {
@@ -30,14 +31,13 @@
 		<h2>Despesas</h2>
 
 		<ul class="nav nav-tabs">
-			<li class="active"><a data-toggle="tab" href="#home">Home</a></li>
+			<li class="active"><a data-toggle="tab" href="#despesaPeriodo">Mês a Mês</a></li>
 			<li><a data-toggle="tab" href="#despesasFixas">Fixas</a></li>
 			<li><a data-toggle="tab" href="#despesasVariaveis">Variáveis</a></li>
 		</ul>
-
 		<div class="tab-content">	
-			<div id="home" class="tab-pane fade in active">
-				<span>Despesas</span>
+			<div id="despesaPeriodo" class="tab-pane fade in active">
+				<div th:insert="despesaPeriodo"></div>
 			</div>
 			<div id="despesasFixas" class="tab-pane fade in active">
 				<div th:insert="despesaFixa"></div>

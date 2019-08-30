@@ -2,6 +2,7 @@ var idAtual;
 var idPecaAtual;
 var medidas;
 var materiais;
+var despesasFixas;
 
 function criaLinhaInclusao(...colunas) {
 	if ($('#linhaNova'+colunas[0]).length == 0) {
@@ -46,9 +47,6 @@ function criaCombo(objeto, campo) {
 	let combo = document.createElement('select');
 	combo.setAttribute('id', 'input'+ campo + objeto +'Novo');
 	
-	console.log('Criando Combo: #input'+campo+objeto+'Novo: ');
-	console.log($('#input'+campo+objeto+'Novo').val());
-	
 	return populaCombo(combo, campo);
 }
 
@@ -57,6 +55,8 @@ function populaCombo(combo, objeto) {
 	
 	if(objeto === 'UnidadeMedidaSelecionada')
 		lista = medidas;
+	if(objeto === 'DespesasFixas')
+		lista = despesasFixas;
 	else
 		lista = materiais;
 	for(let i = 0; i < lista.length; i++) {
@@ -67,17 +67,6 @@ function populaCombo(combo, objeto) {
 		combo.appendChild(option);
 	}
 	return combo;
-}
-
-function criaCombosPaginaInicial() {
-	arrayMedidas = $('#medidas').val();
-	arrayMateriais = $('#materiais').val();
-	
-	arrayMedidas = arrayMedidas.substring(arrayMedidas.length-1, 1);
-	medidas = arrayMedidas.split(",");
-	
-	arrayMateriais = arrayMateriais.substring(arrayMateriais.length-1, 1);
-	materiais = arrayMateriais.split(",");
 }
 
 function criaDivBotoes(operacao, objeto) {
@@ -155,7 +144,10 @@ function alterar(objeto) {
 		alterarMaterialProducao();
 		break;
 	case 'Despesa':
-		alterarDespesa();
+		alterarDespesa('FIXA');
+		break;
+	case 'DespesaVariavel':
+		alterarDespesa('VARIAVEL');
 		break;
 	}
 }

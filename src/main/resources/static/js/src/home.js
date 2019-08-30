@@ -2,6 +2,17 @@ $(function() {
 	criaCombosPaginaInicial();
 });
 
+function criaCombosPaginaInicial() {
+	arrayMedidas = $('#medidas').val();
+	arrayMateriais = $('#materiais').val();
+	
+	arrayMedidas = arrayMedidas.substring(arrayMedidas.length-1, 1);
+	medidas = arrayMedidas.split(",");
+	
+	arrayMateriais = arrayMateriais.substring(arrayMateriais.length-1, 1);
+	materiais = arrayMateriais.split(",");
+}
+
 function adicionarPeca() {
 	var dadosRequest = preencheCamposPecaRequest();
 
