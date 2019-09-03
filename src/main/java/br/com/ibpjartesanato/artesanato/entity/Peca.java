@@ -1,19 +1,20 @@
 package br.com.ibpjartesanato.artesanato.entity;
 
-import java.math.BigDecimal;
+import java.time.LocalTime;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.NotEmpty;
 
-@Entity(name="tb_material")
-public class Material {
-
-	@Id @GeneratedValue(strategy=GenerationType.AUTO)
+@Entity(name="tb_peca")
+public class Peca {
+	
+	@Id @GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	
 	@Column(nullable = false)
@@ -25,16 +26,15 @@ public class Material {
 	private String descricao;
 	
 	@Column(nullable = false)
-//	@NotEmpty(message = "Quantidade é uma informação obrigatória.")
-	private float quantidade;
+	private float pctLucro;
 	
 	@Column(nullable = false)
-//	@NotEmpty(message = "Preço é uma informação obrigatória.")
-	private BigDecimal preco;
-
-	@ManyToOne
-	private UnidadeMedida unidadeMedida;
+//	@NotEmpty(message = "Horas de produção é uma informação obrigatória.")
+	private LocalTime hrsProducao;
 	
+	@OneToMany(mappedBy = "peca")
+	private List<MaterialProducao> listaMateriaisProducao;
+
 	public Long getId() {
 		return id;
 	}
@@ -59,27 +59,19 @@ public class Material {
 		this.descricao = descricao;
 	}
 
-	public float getQuantidade() {
-		return quantidade;
+	public float getPctLucro() {
+		return pctLucro;
 	}
 
-	public void setQuantidade(float quantidade) {
-		this.quantidade = quantidade;
+	public void setPctLucro(float pctLucro) {
+		this.pctLucro = pctLucro;
 	}
 
-	public BigDecimal getPreco() {
-		return preco;
+	public LocalTime getHrsProducao() {
+		return hrsProducao;
 	}
 
-	public void setPreco(BigDecimal preco) {
-		this.preco = preco;
-	}
-
-	public UnidadeMedida getUnidadeMedida() {
-		return unidadeMedida;
-	}
-
-	public void setUnidadeMedida(UnidadeMedida unidadeMedida) {
-		this.unidadeMedida = unidadeMedida;
+	public void setHrsProducao(LocalTime hrsProducao) {
+		this.hrsProducao = hrsProducao;
 	}
 }

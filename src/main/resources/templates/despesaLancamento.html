@@ -1,0 +1,50 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width" />
+</head>
+<input th:type="hidden" th:id="despesas" th:value="${despesas}" />
+<div th:fragment="despesaLancamento" class="panel panel-default">
+	<div class="panel-body">
+		<input type="date" id="dataDespesaLancamento" th:value="${dataAtual}"><br><br>
+		<div class="table-responsive">
+			<table
+				class="table table-sm table-striped table-hover table-bordered table-responsive">
+				<thead>
+					<tr>
+						<th scope="col">Despesa</th>
+						<th scope="col">Valor</th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody id="tabelaDespesaPeriodo">
+					<tr th:each="despesaPeriodo : ${despesasPeriodo}">
+						<input th:type="hidden" th:id="'despesaPeriodoId_'+${despesaPeriodo.id}" th:value="${despesaPeriodo.id}" />
+						<td th:text="${despesaPeriodo.despesa.nome}"></td>
+						<td th:text="${despesaPeriodo.valor}"></td>
+						
+<!-- 						<td class="table-row" -->
+<!-- 							th:onclick="|atualizaPagina('${despesaPeriodo.id}')|" -->
+<!-- 							th:id="'despesaPeriodoNome_'+${despesaPeriodo.id}" th:text="${despesaPeriodo.nome}"></td> -->
+						<td>
+							<div class="btn-group pull-right">
+								<button class="btn btn-sm btn-primary"
+									th:onclick="|liberaCamposParaEdicao('${despesaPeriodo.id}', 'DespesaPeriodo', 'Nome')|">Editar</button>
+								<button class="delete btn btn-sm btn-danger"
+									th:onclick="|excluir('${despesaPeriodo.id}')|">Excluir</button>
+							</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<div class="panel-footer">
+		<a class="btn btn-sm btn-danger" th:href="@{/}">Voltar</a>
+		<button class="btn btn-sm btn-success"
+			th:onclick="|criaLinhaInclusao('DespesaPeriodo', 'ComboDespesas', 'Valor')|">
+			Novo</a>
+	</div>
+</div>

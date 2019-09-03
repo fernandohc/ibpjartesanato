@@ -5,7 +5,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-@Entity
+@Entity(name="tb_unidademedida")
 public class UnidadeMedida {
 
 	@Id @GeneratedValue(strategy=GenerationType.AUTO)

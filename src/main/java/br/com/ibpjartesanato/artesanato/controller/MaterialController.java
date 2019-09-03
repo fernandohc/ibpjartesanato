@@ -1,16 +1,22 @@
 package br.com.ibpjartesanato.artesanato.controller;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import br.com.ibpjartesanato.artesanato.entity.Material;
 import br.com.ibpjartesanato.artesanato.service.MaterialService;
 import br.com.ibpjartesanato.artesanato.service.UnidadeMedidaService;
 
 @Controller
-@RequestMapping(path="/materiais")
+@RequestMapping(path="/material")
 public class MaterialController {
 
 	@Autowired
@@ -20,32 +26,66 @@ public class MaterialController {
 	private UnidadeMedidaService unidadeMedidaService;
 	
 	@GetMapping
-	public String findAll() {
+	public ModelAndView findAll() {
 		
-		return "materiais";
+		ModelAndView mv = new ModelAndView("/material");
+		mv.addObject("materiais", materialService.listar());
+		mv.addObject("medidas", unidadeMedidaService.getMapMedidas());
+		
+		return mv;
 	}
 	
-//	@PostMapping("/save")
-//	public ModelAndView save(@Valid Post post, BindingResult result) {
+//	@GetMapping("/add")
+//	public ModelAndView add(Post post) {
 //		
-//		if(result.hasErrors()) {
-//			return add(post);
-//		}
+//		ModelAndView mv = new ModelAndView("/postAdd");
+//		mv.addObject("post", post);
 //		
-//		service.save(post);
-//		
-//		return findAll();
+//		return mv;
 //	}
 	
-//	@PostMapping("/salvar")
-//	public ModelAndView save(@Valid Material material, BindingResult result) {
+//	@GetMapping("/edit/{id}")
+//	public Post edit(@PathVariable("id") Long id) {
 //		
-//		System.out.println("Entrou em salvar");
-//		if(result.hasErrors()) {
-//			System.out.println("Ocorreu erro!");
-//		}
-//		service.save(material);
-//		
-//		return findAll();
+//		return service.findOne(id);
 //	}
+	
+	@GetMapping("/delete/{id}")
+	public ModelAndView delete(@PathVariable("id") Long id) {
+		
+		materialService.remover(id);
+		
+		return findAll();
+	}
+
+	@PostMapping("/save")
+	public ModelAndView save(@Valid Material material, BindingResult result) {
+		
+//		if(result.hasErrors()) {
+//			return add(material);
+//		}
+		materialService.salvar(material);
+		
+		return findAll();
+	}
+	
+	
+	@PostMapping("/edit")
+	public ModelAndView alterar(@Valid Material novo, BindingResult result) {
+		
+//		if(result.hasErrors()) {
+//			return add(material);
+//		}
+		
+		Material alterado = materialService.findOne(novo.getId());
+		alterado.setNome(novo.getNome());
+		alterado.setDescricao(novo.getDescricao());
+		alterado.setQuantidade(novo.getQuantidade());
+		alterado.setUnidadeMedida(novo.getUnidadeMedida());
+		alterado.setPreco(novo.getPreco());
+		materialService.salvar(alterado);
+		
+		return findAll();
+	}
+	
 }

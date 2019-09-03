@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width" />
+<title>Artesanato</title>
+
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+<script type="text/javascript" th:src="@{/js/src/applicationGenerics.js}"></script>
+<script type="text/javascript" th:src="@{/js/src/despesa.js}"></script> 
+
+  
+<style>
+.table-row {
+	cursor: pointer;
+}
+
+.table-btn {
+	cursor: context-menu;
+}
+</style>
+
+</head>
+<input th:type="hidden" th:id="despesaLancamentoId" th:value="${despesaLancamento.id}" />
+
+<body>
+	<div class="container">
+		<h2>Despesas</h2>
+
+		<ul class="nav nav-tabs">
+			<li class="active"><a data-toggle="tab" href="#despesaLancamento">Mês a Mês</a></li>
+			<li><a data-toggle="tab" href="#despesaFixa">Fixas</a></li>
+			<li><a data-toggle="tab" href="#despesaVariavel">Variáveis</a></li>
+		</ul>
+		<div class="tab-content">	
+			<div id="despesaLancamento" class="tab-pane fade in active">
+				<div th:insert="despesaLancamento"></div>
+			</div>
+			<div id="despesaFixa" class="tab-pane fade in">
+				<div th:insert="despesaFixa"></div>
+			</div>
+			<div id="despesaVariavel" class="tab-pane fade in">
+				<div th:insert="despesaVariavel"></div>
+			</div>
+		</div>
+	</div>
+</body>
